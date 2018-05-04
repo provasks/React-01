@@ -15,7 +15,7 @@ const Layout = ({ children, data }) => (
       ]}
     />
     <div className="container">
-    <Header siteTitle={data.site.siteMetadata.title} />
+    <Header project={data.site.siteMetadata.project} />
       {children()}
     </div>
   </div>
@@ -32,6 +32,7 @@ export const query = graphql`
     site {
       siteMetadata {
         title
+        project
       }
     }
   }
