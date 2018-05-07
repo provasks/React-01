@@ -15,7 +15,7 @@ const Layout = ({ children, data }) => (
       ]}
     />
     <div className="container">
-    <Header project={data.site.siteMetadata.project} />
+      <Header project={data.site.siteMetadata.project} />
       {children()}
     </div>
   </div>
