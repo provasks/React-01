@@ -1,10 +1,13 @@
 import React from 'react'
 // import Link from 'gatsby-link'
-import logo from '../images/logo.png';
+import Logo from './logo';
 
-const Header = ({ project }) => (
-  <div>
-    <img src={logo} alt="Sapient Logo" />
+const Header = ({ company }) => (
+  <div className="header">
+    <div className="logo">
+      <Logo></Logo>
+    </div>
+    <div className="company">{company}</div>
   </div>
 )
 export default Header
