@@ -1,11 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
+import { Link } from 'react-router-dom';
 
 import Header from '../components/header'
-import './index.css'
+import SideBar from '../components/side-bar';
+import './index.scss'
 
-const Layout = ({ data }) => (
+const Layout = ({ children, data }) => (
   <div>
     <Helmet
       title={data.site.siteMetadata.title}
@@ -16,6 +18,8 @@ const Layout = ({ data }) => (
     />
     <div className="container">
       <Header company={data.site.siteMetadata.company} />
+      <SideBar open={false} />
+      {children()}
     </div>
   </div>
 )

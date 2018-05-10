@@ -1,0 +1,49 @@
+// Extends/Inheritance
+%align-middle {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+// General Style Definitions
+
+body {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin:0;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 960px;
+
+    header {
+        .logo {
+            @extend %align-middle;
+        }
+
+        .company {
+            @extend %align-middle;
+
+            padding-left: 10px;
+            font-size: 30px;
+        }
+    }
+
+    .side-bar, .page {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .side-bar {
+        max-width: 200px;
+        padding: 10px;
+
+        ul {
+            list-style: none;
+        }
+    }
+
+    // .page {
+    //     max-width: 600px;
+    // }
+}
