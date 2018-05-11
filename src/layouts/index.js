@@ -6,7 +6,6 @@ import Header from '../components/header'
 import SideBar from '../components/side-bar';
 import './index.scss'
 
-
 class Layout extends Component {
   constructor({ children, data }) {
     super();
@@ -18,7 +17,7 @@ class Layout extends Component {
       company: this.data.site.siteMetadata.company
     }
   }
-  onClick = (value) => {
+  callSibling_Event = (value) => {
     this.sideBar.handleToggle();
   }
   render() {
@@ -32,9 +31,9 @@ class Layout extends Component {
           ]}
         />
         <div className="container">
-          <Header props={this.state} handleToggle={this.onClick.bind(this, this.state.open)} />
-          <SideBar props={this.state} ref={instance => { this.sideBar = instance; }}  />
-          {this.children()}
+            <Header props={this.state} parent_callback={this.callSibling_Event.bind(this, this.state.open)} />
+            <SideBar props={this.state} ref={instance => { this.sideBar = instance; }} />
+            {this.children()}
         </div>
       </div>
     )

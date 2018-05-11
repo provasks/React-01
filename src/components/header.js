@@ -6,15 +6,13 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 
 class Header extends Component {
-  constructor(props) {
+  constructor({ props }) {
     super();
   }
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <AppBar title={this.props.props.company} onLeftIconButtonClick={this.props.handleToggle}>
-          <div className="clear"></div>
-        </AppBar>
+        <AppBar title={this.props.props.company} onLeftIconButtonClick={this.props.parent_callback} />
       </MuiThemeProvider>
     );
   }
