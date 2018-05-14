@@ -12,7 +12,8 @@ class Header extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <AppBar title={this.props.props.company} onLeftIconButtonClick={this.props.parent_callback} />
+        <AppBar title={this.props.props.company} onLeftIconButtonClick={this.props.parent_callback}>
+        </AppBar>
       </MuiThemeProvider>
     );
   }

@@ -1,12 +1,28 @@
 import React from 'react'
 import Link from 'gatsby-link'
+// import { Card } from 'material-ui/Card';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import { MuiThemeProvider } from 'material-ui/styles';
+import Employee from '../components/employee';
+import util from '../helper/util'
 
-const HomePage = () => (
-  <main className="page">
-    <h1>Home Page</h1>
-    <p>Lorem ipsum dolor sit amet, ad tollit ornatus epicurei pro. Eos te natum labore neglegentur. Sea an oratio primis. Duo ne dicit pericula maiestatis.
-    Pri ea quot aliquip definiebas. Erant aliquid ne nam. Sed in deleniti neglegentur, eos possim voluptua ea, vis duis veri graece ne. Tale fierent aliquando mea id.</p>
-  </main>
-)
+// console.log(util.getEmployees());
+const HomePage = function () {
+  let employees = util.getEmployees();
+  console.log(employees);
+  return (
+    <main className="page">
+      <h1>Home Page</h1>
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <div style={{ width: '100%', margin: '0 auto' }}>
+          {employees.map(function (employee) {
+            return <Employee props={employee} key={employee.id}/>;
+          })}
+        </div>
+      </MuiThemeProvider>
+    </main>
+  )
+}
 
 export default HomePage

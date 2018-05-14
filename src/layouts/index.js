@@ -17,7 +17,7 @@ class Layout extends Component {
       company: this.data.site.siteMetadata.company
     }
   }
-  callSibling_Event = (value) => {
+  sibling_Event = () => {
     this.sideBar.handleToggle();
   }
   render() {
@@ -31,7 +31,7 @@ class Layout extends Component {
           ]}
         />
         <div className="container">
-            <Header props={this.state} parent_callback={this.callSibling_Event.bind(this, this.state.open)} />
+            <Header props={this.state} parent_callback={this.sibling_Event.bind(this)} />
             <SideBar props={this.state} ref={instance => { this.sideBar = instance; }} />
             {this.children()}
         </div>
