@@ -1,7 +1,7 @@
 import faker from 'faker'
 
 const util = {
-    total: 10,
+    total: 50,
     getEmail: function (firstName, lastName) {
         return faker.internet.email(firstName, lastName);
     },
@@ -20,6 +20,10 @@ const util = {
             employees.push(employee);
         }
         return employees;
+    },
+    jerk: function(){
+        window.scrollTo(0, 1)
+        window.scrollTo(0,0);
     }
 }
 

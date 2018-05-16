@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 // import LazyLoad from 'react-lazy-load';
 import LazyLoad from 'react-lazyload';
 
+
 class Employee extends Component {
     constructor({ props }) {
         super();
@@ -15,7 +16,7 @@ class Employee extends Component {
     }
     render() {
         return (
-            <LazyLoad height={250} >
+            <LazyLoad height={250}>
                 <Card style={{ marginBottom: '5px' }}>
                     <CardHeader
                         title={this.state.firstName}
@@ -24,14 +25,10 @@ class Employee extends Component {
                     <CardMedia overlay={<CardTitle title={`${this.state.firstName} ${this.state.lastName}`} subtitle={this.state.email} />}>
                         <img src={this.state.avatar} alt={`${this.state.firstName} ${this.state.lastName}`} />
                     </CardMedia>
-                    <CardTitle title={this.state.firstName} subtitle={`T: ${this.state.phone}`} />
+                    {/* <CardTitle title={this.state.firstName} subtitle={`T: ${this.state.phone}`} /> */}
                     <CardText>
                         {this.state.description}
                     </CardText>
-                    {/* <CardActions>
-                        <FlatButton label="Action1" />
-                        <FlatButton label="Action2" />
-                    </CardActions> */}
                 </Card>
             </LazyLoad>
         );
