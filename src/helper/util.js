@@ -13,7 +13,8 @@ const util = {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 phone: faker.phone.phoneNumber(),
-                avatar: faker.internet.avatar()
+                avatar: faker.internet.avatar(),
+                description: faker.lorem.paragraph()
             }
             employee.email = this.getEmail(employee.firstName, employee.lastName);
             employees.push(employee);

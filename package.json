@@ -11,6 +11,8 @@
     "gatsby-plugin-sass": "^1.0.26",
     "material-ui": "^0.20.0",
     "react-helmet": "^5.2.0",
+    "react-lazy-load": "^3.0.13",
+    "react-lazyload": "^2.3.0",
     "react-responsive-image": "^3.4.3"
   },
   "keywords": [

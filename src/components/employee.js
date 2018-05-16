@@ -5,6 +5,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+// import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 class Employee extends Component {
     constructor({ props }) {
@@ -13,27 +15,25 @@ class Employee extends Component {
     }
     render() {
         return (
-            <Card>
-                <CardHeader
-                    title="URL Avatar"
-                    subtitle="Subtitle"
-                    avatar={this.state.avatar} />
-                <CardMedia overlay={<CardTitle title={this.state.firstName} subtitle="Overlay subtitle" />}>
-                    <img src={this.state.avatar} alt="" />
-                </CardMedia>
-                <CardTitle title={this.state.firstName} subtitle="Card subtitle" />
-                <CardText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                </CardText>
-                <CardActions>
-                    <FlatButton label="Action1" />
-                    <FlatButton label="Action2" />
-                </CardActions>
-            </Card>
-
+            <LazyLoad height={250} >
+                <Card style={{ marginBottom: '5px' }}>
+                    <CardHeader
+                        title={this.state.firstName}
+                        subtitle={`ID: ${this.state.id}`}
+                        avatar={this.state.avatar} />
+                    <CardMedia overlay={<CardTitle title={`${this.state.firstName} ${this.state.lastName}`} subtitle={this.state.email} />}>
+                        <img src={this.state.avatar} alt={`${this.state.firstName} ${this.state.lastName}`} />
+                    </CardMedia>
+                    <CardTitle title={this.state.firstName} subtitle={`T: ${this.state.phone}`} />
+                    <CardText>
+                        {this.state.description}
+                    </CardText>
+                    {/* <CardActions>
+                        <FlatButton label="Action1" />
+                        <FlatButton label="Action2" />
+                    </CardActions> */}
+                </Card>
+            </LazyLoad>
         );
     }
 }
