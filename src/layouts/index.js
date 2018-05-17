@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Header from '../components/header'
 import SideBar from '../components/side-bar';
-import './index.scss'
+import '../styles/styles.scss';
 
 class Layout extends Component {
   constructor({ children, data }) {

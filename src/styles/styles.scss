@@ -4,17 +4,20 @@
     vertical-align: middle;
 }
 
+$margin: 10px;
+
 // General Style Definitions
 
 body {
     font-family: Roboto, Arial, Helvetica, sans-serif;
     font-size: 14px;
-    margin:0;
+    margin: 0;
 }
 
 .container {
     margin: 0 auto;
-    max-width: 960px;
+
+    // max-width: 960px;
 
     header {
         .logo {
@@ -44,7 +47,29 @@ body {
     }
 
     .page {
-        width: 100%;
+        // width: 100%;
         background-color: darkslategray;
+        // padding: 0 16px;
+   
+    }
+
+    .row {
+        margin: 0;
+    }
+    .col-sm-12 {
+        margin: #{$margin};
+        max-width: -webkit-calc(100% - #{$margin}*2);
+    } 
+    @media (min-width: 768px){
+        .col-md-6{
+            margin: #{$margin};
+            max-width: -webkit-calc(50% - #{$margin}*2);
+        }
+    }
+    @media (min-width: 992px) {
+        .col-lg-4 {
+            margin: #{$margin};
+            max-width: -webkit-calc(33.3333333% - #{$margin}*2);
+        }
     }
 }

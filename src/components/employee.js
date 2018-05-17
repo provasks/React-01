@@ -17,7 +17,7 @@ class Employee extends Component {
     render() {
         return (
             <LazyLoad height={250}>
-                <Card style={{ marginBottom: '5px' }}>
+                <Card className="col-sm-12 col-md-6 col-lg-4">
                     <CardHeader
                         title={this.state.firstName}
                         subtitle={`ID: ${this.state.id}`}
@@ -25,10 +25,6 @@ class Employee extends Component {
                     <CardMedia overlay={<CardTitle title={`${this.state.firstName} ${this.state.lastName}`} subtitle={this.state.email} />}>
                         <img src={this.state.avatar} alt={`${this.state.firstName} ${this.state.lastName}`} />
                     </CardMedia>
-                    {/* <CardTitle title={this.state.firstName} subtitle={`T: ${this.state.phone}`} /> */}
-                    <CardText>
-                        {this.state.description}
-                    </CardText>
                 </Card>
             </LazyLoad>
         );
