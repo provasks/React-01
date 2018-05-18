@@ -1,7 +1,7 @@
 import faker from 'faker'
 
 const util = {
-    total: 10,
+    total: 100,
     getEmail: function (firstName, lastName) {
         return faker.internet.email(firstName, lastName);
     },
@@ -14,7 +14,9 @@ const util = {
                 lastName: faker.name.lastName(),
                 phone: faker.phone.phoneNumber(),
                 avatar: faker.internet.avatar(),
-                description: faker.lorem.paragraph()
+                userName: faker.internet.userName(),
+                jobTitle: faker.name.jobTitle(),
+                company: faker.company.companyName()
             }
             employee.email = this.getEmail(employee.firstName, employee.lastName);
             employees.push(employee);

@@ -18,13 +18,14 @@ class Employee extends Component {
         return (
             <LazyLoad height={250}>
                 <Card className="col-sm-12 col-md-6 col-lg-4">
-                    <CardHeader
-                        title={this.state.firstName}
-                        subtitle={`ID: ${this.state.id}`}
+                    <CardHeader style={{padding: '16px 0'}}
+                        title={`ID: ${this.state.id}`}
+                        subtitle={`Ph: ${this.state.phone}`}
                         avatar={this.state.avatar} />
                     <CardMedia overlay={<CardTitle title={`${this.state.firstName} ${this.state.lastName}`} subtitle={this.state.email} />}>
                         <img src={this.state.avatar} alt={`${this.state.firstName} ${this.state.lastName}`} />
                     </CardMedia>
+                    <CardTitle title={this.state.company} subtitle={this.state.jobTitle} titleStyle={{fontSize: '17px'}} />
                 </Card>
             </LazyLoad>
         );
