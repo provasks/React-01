@@ -50,25 +50,38 @@ body {
         background-color: lightseagreen;
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
         width: 100%;
+
+        .placeholder-image {
+            width: 100%;
+        }
     }
 
     .row {
         margin: 0;
     }
+
     .col-sm-12 {
         margin: #{$margin};
         max-width: -webkit-calc(100% - #{$margin}*2);
-    } 
-    @media (min-width: 768px){
-        .col-md-6{
+        max-width: -moz-calc(100% - #{$margin}*2);
+        max-width: calc(100% - #{$margin}*2);
+    }
+
+    @media (min-width: 768px) {
+        .col-md-6 {
             margin: #{$margin};
             max-width: -webkit-calc(50% - #{$margin}*2);
+            max-width: -moz-calc(50% - #{$margin}*2);
+            max-width: calc(50% - #{$margin}*2);
         }
     }
+
     @media (min-width: 992px) {
         .col-lg-4 {
             margin: #{$margin};
             max-width: -webkit-calc(33.3333333% - #{$margin}*2);
+            max-width: -moz-calc(33.3333333% - #{$margin}*2);
+            max-width: calc(33.3333333% - #{$margin}*2);
         }
     }
 }

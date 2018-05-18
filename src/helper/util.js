@@ -5,7 +5,7 @@ const util = {
     getEmail: function (firstName, lastName) {
         return faker.internet.email(firstName, lastName);
     },
-    getEmployees: function () {
+    getEmployeesData: function () {
         const employees = [];
         for (let index = 0; index < this.total; index++) {
             var employee = {

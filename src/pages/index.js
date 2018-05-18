@@ -25,6 +25,9 @@ class HomePage extends Component {
       field: 'id',
       employees: []
     };
+  }
+
+  componentWillMount(){
     this.loadEmployeeData();
   }
   updateState=(divElement)=>{
@@ -33,7 +36,7 @@ class HomePage extends Component {
     }
   }
   loadEmployeeData = () => {
-    this.allEmployees = util.getEmployees();
+    this.allEmployees = util.getEmployeesData();
     this.employees = this.util.filter(this.allEmployees, "");
   }
 
