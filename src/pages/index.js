@@ -18,37 +18,40 @@ class HomePage extends Component {
   constructor() {
     super();
     this.util = util;
+    this.allEmployees = [];
+    this.employees = [];
     this.state = {
       direction: 1,
       field: 'id',
       employees: []
     };
+    this.loadEmployeeData();
   }
-  employeeData = util.getEmployees();
-  // employees = util.getEmployees();
-  // debugger;
-  employees = util.filter(this.employeeData, "");
-  // filterEmployees = (text) => {
-  //   return myArray.map(a => ({ ...a }));
-  // }
+  updateState=(divElement)=>{
+    if(divElement){
+      this.setState({'employees': this.employees});
+    }
+  }
+  loadEmployeeData = () => {
+    this.allEmployees = util.getEmployees();
+    this.employees = this.util.filter(this.allEmployees, "");
+  }
 
   handleSortField = (event, index, field) => {
     this.setState({ field });
-    util.sort(this.employees, field, this.state.direction);
+    util.sort(this.state.employees, field, this.state.direction);
   }
   handleSortDirection = (event, index, direction) => {
     this.setState({ direction });
-    util.sort(this.employees, this.state.field, direction);
+    util.sort(this.state.employees, this.state.field, direction);
   }
   handleFilter = (e) => {
     let keycode = e.keyCode || evt.which;
     if (keycode == 13) { //if Enter button pressed
-      // this.employees.length = 0;
-      this.employees = this.util.filter(this.employeeData, e.target.value);
-      // this.render();
+      this.employees = this.util.filter(this.allEmployees, e.target.value);
+      this.updateState(true);
     }
   }
-
   render() {
     return (
       <main className="page">
@@ -58,31 +61,35 @@ class HomePage extends Component {
           <div id="provas">
             <div className="row">
               {/* sort field */}
-              <SelectField style={{ width: '100px', marginRight: '10px' }}
-                floatingLabelText="Sort field"
-                value={this.state.field}
-                onChange={this.handleSortField}>
-                <MenuItem value={'id'} primaryText="ID" />
-                <MenuItem value={'firstName'} primaryText="Name" />
-              </SelectField>
-              {/* sort direction */}
-              <SelectField style={{ width: '140px', marginRight: '10px' }}
-                floatingLabelText="Direction"
-                value={this.state.direction}
-                onChange={this.handleSortDirection}>
-                <MenuItem value={1} primaryText="Ascending" />
-                <MenuItem value={2} primaryText="Descending" />
-              </SelectField>
-              <TextField style={{ top: '-15px' }}
-                hintText="1" onKeyUp={this.handleFilter}
-                floatingLabelText="Filter by Id or Name <Enter>"
-              // floatingLabelFixed={true}
-              />
-              <p>Records: {this.employees.length}</p>
+              <div className="col-sm-12 col-md-6">
+                <SelectField style={{ width: '100px', marginRight: '10px' }}
+                  floatingLabelText="Sort field"
+                  value={this.state.field}
+                  onChange={this.handleSortField}>
+                  <MenuItem value={'id'} primaryText="ID" />
+                  <MenuItem value={'firstName'} primaryText="Name" />
+                </SelectField>
+                {/* sort direction */}
+                <SelectField style={{width: '156px', marginRight: '10px' }}
+                  floatingLabelText="Direction"
+                  value={this.state.direction}
+                  onChange={this.handleSortDirection}>
+                  <MenuItem value={1} primaryText="Ascending" />
+                  <MenuItem value={2} primaryText="Descending" />
+                </SelectField>
+              </div>
+              <div className="col-sm-12 col-md-6">
+                <TextField
+                  hintText="1" onKeyUp={this.handleFilter}
+                  floatingLabelText="Filter by Id or Name <Enter>"
+                // floatingLabelFixed={true}
+                />
+                {/* <div>Records: {this.employees.length}</div> */}
+              </div>
             </div>
-            <div className="row gutter-10">
-              {this.employees.map(function (employee) {
-                return <Employee props={employee} key={employee.id}  />
+            <div className="row gutter-10" ref={this.updateState}>
+              {this.state.employees.map(function (employee) {
+                return <Employee props={employee} key={employee.id} />
               })}
 
             </div>

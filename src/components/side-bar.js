@@ -14,6 +14,7 @@ export default class SideBar extends React.Component {
     }
 
     handleToggle = () => {
+        // this.setState({temp:true})
         this.setState({ open: !this.state.open });
     }
     render() {

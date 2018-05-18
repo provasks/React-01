@@ -31,14 +31,14 @@ const util = {
         });
         this.jerk();
     },
-    filter: function (array, text) {
-        // let array =  Object.assign([], collection);
+    filter: function (array = [], text = "") {
         let arr1 = [];
         if (Number.isInteger(Number.parseInt(text))) {
             arr1 = array.filter(item => item.id === Number.parseInt(text));
         }
-        //return arr.push(array.filter(item => item.firstName.indexOf(text) > -1))
-        let arr2 = array.filter(item => item.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1);
+        let arr2 = array.filter(item =>
+            (item.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+                item.lastName.toLowerCase().indexOf(text.toLowerCase()) > -1));
         return [...arr1, ...arr2];
     },
 
