@@ -33,14 +33,10 @@ const util = {
         this.scroll();
     },
     filter: function (array = [], text = "") {
-        let arr1 = [];
-        if (Number.isInteger(Number.parseInt(text))) {
-            arr1 = array.filter(item => item.id === Number.parseInt(text));
-        }
-        let arr2 = array.filter(item =>
-            (item.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-                item.lastName.toLowerCase().indexOf(text.toLowerCase()) > -1));
-        return [...arr1, ...arr2];
+        return array.filter(item =>
+            item.id.toString().toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.lastName.toLowerCase().indexOf(text.toLowerCase()) > -1);
     },
 
     scroll: function () {
