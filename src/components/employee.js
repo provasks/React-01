@@ -5,14 +5,10 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+// import FlatButton from 'material-ui/FlatButton';
 // import LazyLoad from 'react-lazyload';
 import LazyLoad from 'react-image-lazy-load';
 import '../styles/styles.scss';
-
-const placeholder = {
-    width: '100%'
-};
 
 class Employee extends Component {
     constructor({ props }) {
@@ -41,7 +37,7 @@ class Employee extends Component {
                     // avatar={this.state.avatar} 
                     />
                 <CardMedia overlay={<CardTitle title={`${this.state.firstName} ${this.state.lastName}`} subtitle={this.state.email} />}>
-                    <LazyLoad  offsetVertical={300} loaderImage 
+                    <LazyLoad offsetVertical={300} loaderImage 
                         originalSrc={this.state.avatar}
                         imageProps={{
                             src: require('../images/loading-animations-preloader.gif'),

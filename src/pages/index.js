@@ -65,7 +65,9 @@ class HomePage extends Component {
             <div className="row">
               {/* sort field */}
               <div className="col-sm-12 col-md-6">
-                <SelectField style={{ width: '100px', marginRight: '10px' }}
+                <SelectField 
+                  style={{ width: '100px', marginRight: '10px' }}
+                  floatingLabelStyle={{color:'rgb(48, 48, 48)'}}
                   floatingLabelText="Sort field"
                   value={this.state.field}
                   onChange={this.handleSortField}>
@@ -73,7 +75,9 @@ class HomePage extends Component {
                   <MenuItem value={'firstName'} primaryText="Name" />
                 </SelectField>
                 {/* sort direction */}
-                <SelectField style={{width: '156px', marginRight: '10px' }}
+                <SelectField 
+                  style={{width: '156px', marginRight: '10px' }}
+                  floatingLabelStyle={{color:'rgb(48, 48, 48)'}}
                   floatingLabelText="Direction"
                   value={this.state.direction}
                   onChange={this.handleSortDirection}>
@@ -83,6 +87,7 @@ class HomePage extends Component {
               </div>
               <div className="col-sm-12 col-md-6">
                 <TextField
+                  floatingLabelStyle={{color:'rgb(48, 48, 48)'}}
                   hintText="1" onKeyUp={this.handleFilter}
                   floatingLabelText="Filter by Id or Name <Enter>"
                 // floatingLabelFixed={true}
