@@ -9,7 +9,7 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
 import Employee from '../components/employee';
-import util from '../helper/util';
+import utility from '../helper/util';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/styles.scss';
 
@@ -17,42 +17,74 @@ import '../styles/styles.scss';
 class HomePage extends Component {
   constructor() {
     super();
-    this.util = util;
-    this.allEmployees = [];
-    this.employees = [];
+    const config = {
+      total: 100,           //Total numbers of Employee
+      pageSize: 6        //Records per page
+      // currentPage: 1
+    }
+    this.util = new utility(config);
+    this.oldFilterText = "";
+    // this.employees = [];
+
     this.state = {
       direction: 1,
       field: 'id',
-      employees: []
+      employees: [],
+      filterText: "",
+      currentPage: 0,
+      pageCount: 1
     };
+    this.detectScrollBottom(this);
   }
 
   componentWillMount() {
-    this.loadEmployeeData();
+    this.loadEmployeeData(this.state);
   }
-  updateState = (divElement) => {
-    if (divElement) {
-      this.setState({ 'employees': this.employees });
+
+  appendEmployees = (employees) => {
+    if (employees && employees.length) {
+      this.setState({ 'employees': [...this.state.employees, ...employees] });
     }
   }
+
+  detectScrollBottom = (self) => {
+    window.addEventListener('scroll', function (e) {
+      if (window.innerHeight + this.window.scrollY >= this.document.body.offsetHeight) {
+        self.viewMore();
+        // console.log(window.innerHeight + this.window.scrollY, this.document.body.offsetHeight)
+      }
+    })
+  }
+
   loadEmployeeData = () => {
-    this.allEmployees = util.getEmployeesData();
-    this.employees = this.util.filter(this.allEmployees, "");
+    this.appendEmployees(this.util.getEmployeesData(this.state))
   }
 
   handleSortField = (event, index, field) => {
-    this.setState({ field });
-    util.sort(this.state.employees, field, this.state.direction);
+    this.state.employees = [];
+    this.state.currentPage = 0;
+    this.setState({ field: field }, this.loadEmployeeData);
   }
+
   handleSortDirection = (event, index, direction) => {
-    this.setState({ direction });
-    util.sort(this.state.employees, this.state.field, direction);
+    this.state.employees = [];
+    this.state.currentPage = 0;
+    this.setState({ direction: direction }, this.loadEmployeeData)
   }
+
   handleFilter = (e) => {
     let keycode = e.keyCode || evt.which;
-    if (keycode == 13) { //if Enter button pressed
-      this.employees = this.util.filter(this.allEmployees, e.target.value);
-      this.updateState(true);
+    if (keycode == 13 && (this.oldFilterText !== e.target.value)) { //if text changed
+      this.state.employees = [];
+      this.state.currentPage = 0;
+      this.setState({ filterText: e.target.value }, this.loadEmployeeData);
+      this.oldFilterText = e.target.value;
+    }
+  }
+
+  viewMore = () => {
+    if (this.state.currentPage < this.state.pageCount) {
+      this.appendEmployees(this.util.getMore(this.state));
     }
   }
   render() {
@@ -91,16 +123,15 @@ class HomePage extends Component {
                   hintText="1" onKeyUp={this.handleFilter}
                   floatingLabelText="Filter by Id or Name <Enter>"
                 // floatingLabelFixed={true}
-                />
-                {/* <div>Records: {this.employees.length}</div> */}
+                ></TextField>
               </div>
             </div>
-            <div className="row gutter-10" ref={this.updateState}>
+            <div className="row gutter-10" ref={this.appendEmployees}>
               {this.state.employees.map(function (employee) {
                 return <Employee props={employee} key={employee.id} />
               })}
-
             </div>
+            {/* <button onClick={this.showMore} style={{ float: 'right' }}>More</button> */}
           </div>
         </MuiThemeProvider>
       </main>

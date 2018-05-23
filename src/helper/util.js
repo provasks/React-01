@@ -1,10 +1,15 @@
 import faker from 'faker'
 
-const util = {
-    total: 100,
-    getEmployeesData: function () {
+export default class Util {
+    constructor(config) {
+        this.config = config;
+        this.allEmployees = this.getAllEmployees(this.config.total);
+        this.filteredAndSortedEmployees = [];
+    }
+
+    getAllEmployees(total) {
         const employees = [];
-        for (let index = 0; index < this.total; index++) {
+        for (let index = 0; index < total; index++) {
             let employee = {
                 id: (index + 1),
                 firstName: faker.name.firstName(),
@@ -21,28 +26,34 @@ const util = {
             employees.push(employee);
         }
         return employees;
-    },
-    sort: function (array, field, direction) {
-        array.sort(function (a, b) {
+    }
+    getEmployeesData(state) {
+        let filteredEmployees = this.filter(this.allEmployees, state.filterText);
+        this.filteredAndSortedEmployees = this.sort(filteredEmployees, state.field, state.direction);
+        state.pageCount = Math.ceil(this.filteredAndSortedEmployees.length / this.config.pageSize);
+        return this.getMore(state);
+    }
+    filter(collection = [], text = "") {
+        return collection.filter(item =>
+            item.id.toString().toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.lastName.toLowerCase().indexOf(text.toLowerCase()) > -1);
+    }
+    sort(collection = [], field = 'id', direction = 1) {
+        return collection.sort(function (a, b) {
             let x = a[field];
             let y = b[field];
             return (direction == 1) ?
                 (x < y ? -1 : x > y ? 1 : 0) :
                 (x < y ? 1 : x > y ? -1 : 0)
         });
-        this.scroll();
-    },
-    filter: function (array = [], text = "") {
-        return array.filter(item =>
-            item.id.toString().toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.lastName.toLowerCase().indexOf(text.toLowerCase()) > -1);
-    },
-
-    scroll: function () {
-        window.scrollTo(0, 1)
-        window.scrollTo(0, 0);
+    }
+    getMore(state) {
+        if (state.pageCount > state.currentPage) {
+            state.currentPage++;
+            let from = (state.currentPage - 1) * this.config.pageSize;
+            let to = from + this.config.pageSize;
+            return this.filteredAndSortedEmployees.slice(from, to);
+        }
     }
 }
-
-export default util;
