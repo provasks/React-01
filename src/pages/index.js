@@ -19,7 +19,7 @@ class HomePage extends Component {
     super();
     const config = {
       total: 100,           //Total numbers of Employee
-      pageSize: 6        //Records per page
+      pageSize: 6           //Records per page
       // currentPage: 1
     }
     this.util = new utility(config);
@@ -49,7 +49,7 @@ class HomePage extends Component {
 
   detectScrollBottom = (self) => {
     window.addEventListener('scroll', function (e) {
-      if (window.innerHeight + this.window.scrollY >= this.document.body.offsetHeight) {
+      if (window.innerHeight + (window.scrollY || window.pageYOffset  || document.documentElement.scrollTop) >= this.document.body.offsetHeight) {
         self.viewMore();
         // console.log(window.innerHeight + this.window.scrollY, this.document.body.offsetHeight)
       }

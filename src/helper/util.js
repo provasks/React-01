@@ -6,7 +6,6 @@ export default class Util {
         this.allEmployees = this.getAllEmployees(this.config.total);
         this.filteredAndSortedEmployees = [];
     }
-
     getAllEmployees(total) {
         const employees = [];
         for (let index = 0; index < total; index++) {
