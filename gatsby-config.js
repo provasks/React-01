@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Sample project',
-    company: 'Sapient'
+    application: 'Sapient'
   },
   plugins: [
     'gatsby-plugin-react-helmet',

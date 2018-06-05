@@ -14,7 +14,7 @@ class Layout extends Component {
     this.state = {
       title: this.data.site.siteMetadata.title,
       open: false,
-      company: this.data.site.siteMetadata.company
+      application: this.data.site.siteMetadata.application
     }
   }
   sibling_Event = () => {
@@ -24,7 +24,7 @@ class Layout extends Component {
     return (
       <div>
         <Helmet
-          title={this.state.company}
+          title={this.state.title}
           meta={[
             { name: 'description', content: 'Sample' },
             { name: 'keywords', content: 'sample, something' },
@@ -47,7 +47,7 @@ export const query = graphql`
     site {
       siteMetadata {
         title
-        company
+        application
       }
     }
   }

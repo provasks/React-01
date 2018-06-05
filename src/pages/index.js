@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Link from 'gatsby-link'
+import fetch from 'isomorphic-fetch'
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
@@ -9,82 +10,97 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
 import Employee from '../components/employee';
-import utility from '../helper/util';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/styles.scss';
+
 
 
 class HomePage extends Component {
   constructor() {
     super();
-    const config = {
-      total: 100,           //Total numbers of Employee
-      pageSize: 6           //Records per page
-      // currentPage: 1
-    }
-    this.util = new utility(config);
-    this.oldFilterText = "";
-    // this.employees = [];
-
-    this.state = {
-      direction: 1,
-      field: 'id',
-      employees: [],
+    this.lastFilterText = "";
+    this.config = {
+      pageSize: 6,            //Records per page
+      direction: 1,           //1 for Ascending, 2 for Descending
+      field: 'id',            //sort field
       filterText: "",
-      currentPage: 0,
-      pageCount: 1
+      currentPage: 1,
+      pageCount: 0
+    }
+    this.state = {
+      employees: []
     };
     this.detectScrollBottom(this);
   }
 
+  
+
   componentWillMount() {
-    this.loadEmployeeData(this.state);
+    this.loadEmployeeData(this);
   }
 
   appendEmployees = (employees) => {
     if (employees && employees.length) {
       this.setState({ 'employees': [...this.state.employees, ...employees] });
     }
+    else {
+      this.setState({ 'employees': this.state.employees });
+    }
   }
 
   detectScrollBottom = (self) => {
     window.addEventListener('scroll', function (e) {
-      if (window.innerHeight + (window.scrollY || window.pageYOffset  || document.documentElement.scrollTop) >= this.document.body.offsetHeight) {
+      if (window.innerHeight + (window.scrollY || window.pageYOffset || document.documentElement.scrollTop) >= this.document.body.offsetHeight) {
         self.viewMore();
-        // console.log(window.innerHeight + this.window.scrollY, this.document.body.offsetHeight)
       }
     })
   }
 
-  loadEmployeeData = () => {
-    this.appendEmployees(this.util.getEmployeesData(this.state))
+  loadEmployeeData = (self) => {
+    let esc = encodeURIComponent
+    let url = `http://localhost:3000/employees/${this.config.currentPage}/${this.config.pageSize}/${esc(this.config.field)}/${this.config.direction}/${esc(this.config.filterText)}`
+
+    fetch(url)
+      .then(data => data.text())
+      .then((resp) => {
+        resp = JSON.parse(resp).response;
+        self.config.pageCount = resp.pageCount;
+        self.appendEmployees(resp.employees);
+      }).catch(function (error) {
+        let msg = `${error.message}\nPlease check the Backend server`
+        throw new Error(msg)
+      })
   }
 
   handleSortField = (event, index, field) => {
     this.state.employees = [];
-    this.state.currentPage = 0;
-    this.setState({ field: field }, this.loadEmployeeData);
+    this.config.currentPage = 1;
+    this.config.field = field;
+    this.loadEmployeeData(this);
   }
 
   handleSortDirection = (event, index, direction) => {
     this.state.employees = [];
-    this.state.currentPage = 0;
-    this.setState({ direction: direction }, this.loadEmployeeData)
+    this.config.currentPage = 1;
+    this.config.direction = direction;
+    this.loadEmployeeData(this);
   }
 
   handleFilter = (e) => {
     let keycode = e.keyCode || evt.which;
-    if (keycode == 13 && (this.oldFilterText !== e.target.value)) { //if text changed
+    if (keycode == 13 && (this.lastFilterText !== e.target.value)) { //if text changed
       this.state.employees = [];
-      this.state.currentPage = 0;
-      this.setState({ filterText: e.target.value }, this.loadEmployeeData);
-      this.oldFilterText = e.target.value;
+      this.config.currentPage = 1;
+      this.config.filterText = e.target.value;
+      this.loadEmployeeData(this);
+      this.lastFilterText = e.target.value;
     }
   }
 
   viewMore = () => {
-    if (this.state.currentPage < this.state.pageCount) {
-      this.appendEmployees(this.util.getMore(this.state));
+    if (this.config.currentPage < this.config.pageCount) {
+      this.config.currentPage++;
+      this.loadEmployeeData(this);
     }
   }
   render() {
@@ -93,7 +109,7 @@ class HomePage extends Component {
         {/* <h1>Home Page</h1> */}
 
         <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-          <div id="provas">
+          <div id="home">
             <div className="row">
               {/* sort field */}
               <div className="col-sm-12 col-md-6">
@@ -101,7 +117,7 @@ class HomePage extends Component {
                   style={{ width: '100px', marginRight: '10px' }}
                   floatingLabelStyle={{ color: 'rgb(48, 48, 48)' }}
                   floatingLabelText="Sort field"
-                  value={this.state.field}
+                  value={this.config.field}
                   onChange={this.handleSortField}>
                   <MenuItem value={'id'} primaryText="ID" />
                   <MenuItem value={'firstName'} primaryText="Name" />
@@ -111,7 +127,7 @@ class HomePage extends Component {
                   style={{ width: '156px', marginRight: '10px' }}
                   floatingLabelStyle={{ color: 'rgb(48, 48, 48)' }}
                   floatingLabelText="Direction"
-                  value={this.state.direction}
+                  value={this.config.direction}
                   onChange={this.handleSortDirection}>
                   <MenuItem value={1} primaryText="Ascending" />
                   <MenuItem value={2} primaryText="Descending" />
@@ -131,7 +147,14 @@ class HomePage extends Component {
                 return <Employee props={employee} key={employee.id} />
               })}
             </div>
-            {/* <button onClick={this.showMore} style={{ float: 'right' }}>More</button> */}
+            <div className="row">
+              {this.state.employees.length == 0 && (
+                <div className="messege">No employees found.</div>
+              )}
+              {this.config.pageCount != 0 && (this.config.pageCount == this.config.currentPage) && (
+                <div className="messege">No more employees found.</div>
+              )}
+            </div>
           </div>
         </MuiThemeProvider>
       </main>
